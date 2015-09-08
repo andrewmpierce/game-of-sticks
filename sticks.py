@@ -1,5 +1,12 @@
 import random
 
+ai_dict = {1:[1], 2:[1, 2]}
+key_start = 3
+for x in range(18):
+    ai_dict.update({key_start:[1, 2, 3]})
+    key_start += 1
+
+
 def get_sticks(player):
     get_pick = False
     while get_pick == False:
@@ -24,19 +31,25 @@ def who_lost(player, sticks):
     else:
         pass
 
-def ai():
-    ai_dict = {1:[1], 2:[1, 2]}
-    key_start = 3
-    for x in range(498):
-        ai_dict.update({key_start:[1, 2, 3]})
-        key_start += 1
-    return ai_dict
 
-
+def update_AI(dictionary, choices, won):
+    updated_dict = dictionary
+    if won == True:
+        for x in updated_dict:
+            for comp_picks in choices:
+                if comp_picks == x:
+                    updated_dict[comp_picks].append(choices.get(comp_picks))
+    elif won == False:
+        for x in updated_dict:
+            for comp_picks in choices:
+                if comp_picks == x:
+                    updated_dict[comp_picks].remove(choices.get(comp_picks))
+    print(updated_dict)
+    game_loop_ai(updated_dict)
 
 def game_loop_ai(dictionary):
     player1 = input("What is your name?\n")
-    sticks = int(input("How many sticks? Pick between 1- 500\n"))
+    sticks = int(input("How many sticks? Pick between 1- 20\n"))
     comp_choices = {}
     while is_game_over(sticks) == False:
         sticks = sticks - get_sticks(player1)
@@ -52,10 +65,13 @@ def game_loop_ai(dictionary):
         is_game_over(sticks)
     print("{} lost. Sucks to suck.".format(loser))
     play_again = input("Do you want to play again? yes or no?")
-        if play_again.lower() == 'yes':
-            game_loop_ai(ai())
+    if play_again.lower() == 'yes':
+        if loser is "Skynet":
+            update_AI(dictionary, comp_choices, False)
         else:
-            print("Okay, maybe another time.")
+            update_AI(dictionary, comp_choices, True)
+    else:
+        print("Okay, maybe another time.")
 
 
 def game_loop_2player():
@@ -77,7 +93,7 @@ def game_loop_2player():
 def main():
     choice = int(input("Do you want to play an AI or play with a human? Enter 1 for AI, 2 for human.\n"))
     if choice == 1:
-        game_loop_ai(ai())
+        game_loop_ai(ai_dict)
     elif choice == 2:
         game_loop_2player()
 
