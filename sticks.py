@@ -9,11 +9,13 @@ def ai_dict():
     return ai_dict
 
 
-def get_sticks(player):
+def get_sticks(player, sticks):
     get_pick = False
     while get_pick == False:
         pick = int(input("How many sticks, {}? Pick 1-3.\n".format(player)))
-        if pick >= 1 and pick <= 3:
+        if pick > sticks:
+            print("You don't have that many sticks!")
+        elif pick >= 1 and pick <= 3:
             get_pick = True
         else:
             print("That's not right, pick between 1-3 sticks.")
@@ -46,13 +48,14 @@ def update_AI(dictionary, choices, won, player1):
             for comp_picks in choices:
                 if comp_picks == x:
                     updated_dict[comp_picks].remove(choices.get(comp_picks))
+    #print(updated_dict)
     game_loop_ai(updated_dict, player1)
 
 def game_loop_ai(dictionary, player1):
     sticks = int(input("How many sticks? Pick between 1- 20\n"))
     comp_choices = {}
     while is_game_over(sticks) == False:
-        sticks = sticks - get_sticks(player1)
+        sticks = sticks - get_sticks(player1, sticks)
         print("There are {} sticks left.".format(sticks))
         loser = who_lost(player1, sticks)
         if is_game_over(sticks) == True:
@@ -79,12 +82,12 @@ def game_loop_2player():
     player2 = input("What is your name, player 2?\n")
     sticks = int(input("How many sticks are we playing with? Must be int between 1 - 500.\n"))
     while is_game_over(sticks) == False:
-        sticks = sticks - get_sticks(player1)
+        sticks = sticks - get_sticks(player1, sticks)
         print("There are {} sticks left.".format(sticks))
         loser = who_lost(player1, sticks)
         if is_game_over(sticks) == True:
             break
-        sticks = sticks - get_sticks(player2)
+        sticks = sticks - get_sticks(player2, sticks)
         print("There are {} sticks left.".format(sticks))
         loser = who_lost(player2, sticks)
     print("You lost, {}!".format(loser))
