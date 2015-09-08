@@ -46,7 +46,6 @@ def update_AI(dictionary, choices, won, player1):
             for comp_picks in choices:
                 if comp_picks == x:
                     updated_dict[comp_picks].remove(choices.get(comp_picks))
-    print(updated_dict)
     game_loop_ai(updated_dict, player1)
 
 def game_loop_ai(dictionary, player1):
@@ -83,11 +82,11 @@ def game_loop_2player():
         sticks = sticks - get_sticks(player1)
         print("There are {} sticks left.".format(sticks))
         loser = who_lost(player1, sticks)
-        is_game_over(sticks)
+        if is_game_over(sticks) == True:
+            break
         sticks = sticks - get_sticks(player2)
         print("There are {} sticks left.".format(sticks))
         loser = who_lost(player2, sticks)
-        is_game_over(sticks)
     print("You lost, {}!".format(loser))
 
 
