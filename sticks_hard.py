@@ -50,11 +50,26 @@ def update_AI(dictionary, choices, won, player1):
                 if comp_picks == x:
                     updated_dict[comp_picks].remove(choices.get(comp_picks))
         for x in updated_dict:
-            for number in (1, 2, 3):
-                if number not in updated_dict[x]:
+            for number in [1, 2, 3]:
+                if number not in updated_dict:
                     updated_dict[x].append(number)
-    #print(updated_dict)
+    print(updated_dict)
     game_loop_ai(updated_dict, player1)
+
+def train_AI(dictionary):
+    updated_dict = dictionary
+    if won == True:
+        for x in updated_dict:
+            for comp_picks in choices:
+                if comp_picks == x:
+                    updated_dict[comp_picks].append(choices.get(comp_picks))
+    elif won == False:
+        for x in updated_dict:
+            for comp_picks in choices:
+                if comp_picks == x:
+                    updated_dict[comp_picks].remove(choices.get(comp_picks))
+
+
 
 
 def game_loop_ai(dictionary, player1):
